@@ -1,22 +1,26 @@
 ---
 - name: Install https for apt (Debian)
+  become: true
   apt:
     name: apt-transport-https
     state: present
 
 - name: Get Icinga2 Apt Key for Debian OS family
-  apt_key: 
+  become: true
+  apt_key:
     url: "{{ icinga2_key }}"
     state: present
 
   # Debian packages require additional packages which are provided by the
   # Debian Monitoring Project repository
 - name: Get Debmon Apt Key for Debian OS family (Debian)
+  become: true
   apt_key:
     url: "{{ icinga2_debmon_key }}"
     state: present
 
 - name: Get Icinga2 Apt Repos for Debian OS family
+  become: true
   apt_repository:
     repo: '{{ item.repo }}'
     update_cache: yes
@@ -26,12 +30,14 @@
   # Debian packages require additional packages which are provided by the
   # Debian Monitoring Project repository
 - name: Get Debmon Apt Repo for Debian OS family (Debian)
+  become: true
   apt_repository:
     repo: '{{ icinga2_debmon_repo }}'
     update_cache: yes
     state: present
 
 - name: Install Icinga2 on Debian OS family
+  become: true
   apt:
     pkg: "{{ item.package }}"
     update_cache: yes
